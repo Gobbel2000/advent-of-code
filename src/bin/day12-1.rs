@@ -1,5 +1,7 @@
 /*
- * Simple adaptation of the first solution, but horribly inefficient compared to day12-2.rs
+ * Another implementation for Day 12 Part 2
+ * but faster. This does not use A* and iterates over every starting point at height 0, but instead
+ * creates a Shortest Single Source Path Tree from the End point using Dijkstra's Algorithm.
  */
 use std::fs;
 use std::process::exit;
@@ -16,18 +18,13 @@ fn main() {
         });
     let (map, _start_pos, end_pos) = parse_map(&input);
     let graph = Graph::from_map(&map);
-    let mut shortest = usize::MAX;
-    for start_p in lowest_points(&map) {
-        let start = start_p.0 * graph.m + start_p.1;
-        let end = end_pos.0 * graph.m + end_pos.1;
-        if let Some(path) = graph.find_path(start, end) {
-            if path.len() < shortest {
-                shortest = path.len();
-            }
-        }
-    }
+    let end = end_pos.0 * graph.m + end_pos.1;
+    let (dist, _tree) = graph.dijkstra(end);
+    let shortest = lowest_points(&map).iter()
+        .map(|start_p| dist[start_p.0 * graph.m + start_p.1])
+        .min().unwrap();
     // Don't count startpoint for number of steps
-    println!("{}", shortest - 1);
+    println!("{}", shortest);
 }
 
 fn parse_map(input: &str) -> (Vec<Vec<u8>>, (usize, usize), (usize, usize)) {
@@ -78,49 +75,26 @@ struct Graph<T> {
 }
 
 impl<T> Graph<T> {
-    fn find_path(&self, start: usize, end: usize) -> Option<Vec<usize>> {
-        let (_dist, parent) = self.astar(start, end)?;
-        let mut path = Vec::new();
-        let mut cur = end;
-        path.push(cur);
-        while cur != start {
-            cur = parent[cur].unwrap();
-            path.push(cur);
-        }
-        path.reverse();
-        return Some(path);
-    }
-
-    fn astar(&self, start: usize, end: usize) -> Option<(u64, Vec<Option<usize>>)> {
+    fn dijkstra(&self, start: usize) -> (Vec<u64>, Vec<Option<usize>>) {
         let size = self.v.len();
-        let mut pq = PriorityQueue::new();
         let mut dist = vec![u64::MAX; size];
         dist[start] = 0;
         let mut parent = vec![None; size];
+        let mut pq = PriorityQueue::new();
         // PriorityQueue uses a Max-heap, so priorities are inverted using bitwise-NOT
-        pq.push(start, !self.dist(start, end));
+        pq.push(start, !0);
         while !pq.is_empty() {
             let (v, _prio) = pq.pop().unwrap();
-            if v == end {
-                return Some((dist[end], parent));
-            }
             for &w in self.adj[v].iter() {
                 if dist[w] > dist[v] + 1 {
                     parent[w] = Some(v);
                     dist[w] = dist[v] + 1;
-                    pq.push(w, !(dist[w] + self.dist(w, end)));
+                    pq.push(w, !dist[w]);
                 }
             }
         }
-        return None;
-    }
+        return (dist, parent);
 
-    fn dist(&self, u: usize, v: usize) -> u64 {
-        let p1 = ((u / self.m) as isize, (u % self.m) as isize);
-        let p2 = ((v / self.m) as isize, (v % self.m) as isize);
-        let dist = (((p2.0 - p1.0).pow(2) + (p2.1 - p1.1).pow(2)) as f64).sqrt();
-        // Must convert to integer because floats don't implement Ord
-        return (dist * (1<<31) as f64).floor() as u64;
     }
 }
 
@@ -140,7 +114,9 @@ impl Graph<u8> {
                         let next = (next_i.0 as usize, next_i.1 as usize);
                         if next.0 < n && next.1 < m {
                             let height = map[next.0 as usize][next.1 as usize];
-                            if cur_height + 1 >= height {
+                            //NOTE: Edge directions are reversed, because we search backwards
+                            //starting from the endpoint
+                            if height + 1 >= cur_height {
                                 adjacent.push(next.0 * m + next.1);
                             }
                         }
