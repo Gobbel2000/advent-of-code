@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "aoc"
+name = "aoc2022"
 version = "0.1.0"
 dependencies = [
  "derive_more",
@@ -21,6 +21,14 @@ dependencies = [
  "priority-queue",
  "regex",
  "serde_json",
+]
+
+[[package]]
+name = "aoc2023"
+version = "0.1.0"
+dependencies = [
+ "regex",
+ "util",
 ]
 
 [[package]]
@@ -233,3 +241,7 @@ name = "unicode-ident"
 version = "1.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
+
+[[package]]
+name = "util"
+version = "0.1.0"

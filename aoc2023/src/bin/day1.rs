@@ -1,12 +1,21 @@
-use std::fs;
 use std::collections::HashMap;
 
 use regex::Regex;
 
-static INPUT: &str = "input/2023day1.txt";
+fn part1(input: String) {
+    let number: u32 = input.lines()
+        .map(|l| {
+            let mut digits = l.chars()
+                .filter_map(|c| c.to_digit(10));
+            let first = digits.next().expect("Each line should have at least one digit");
+            let last = digits.last().unwrap_or(first);
+            first * 10 + last
+        })
+        .sum();
+    println!("{number}");
+}
 
-fn main() {
-    let input = fs::read_to_string(INPUT).unwrap();    
+fn part2(input: String) {
     let re_first = Regex::new(r"\d|(one)|(two)|(three)|(four)|(five)|(six)|(seven)|(eight)|(nine)").unwrap();
     // Read any character greedily first to find the last digit
     let re_last = Regex::new(r".*(\d|(one)|(two)|(three)|(four)|(five)|(six)|(seven)|(eight)|(nine))").unwrap();
@@ -34,3 +43,5 @@ fn main() {
         .sum();
     println!("{number}");
 }
+
+util::aoc_main!("day1.txt");
