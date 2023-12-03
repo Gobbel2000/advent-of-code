@@ -65,7 +65,7 @@ impl PartialOrd for CubeSet {
 }
 
 // Return the id of the game and an iterator of cube sets for a given line
-fn iter_sets<'a>(line: &'a str) -> (u32, impl Iterator<Item=CubeSet> + 'a) {
+fn iter_sets(line: &str) -> (u32, impl Iterator<Item=CubeSet> + '_) {
     let re_game = {
         static ONCE: OnceLock<Regex> = OnceLock::new();
         ONCE.get_or_init(|| Regex::new(r"Game (?<n>\d+):\s*").unwrap())

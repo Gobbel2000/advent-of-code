@@ -33,11 +33,11 @@ fn part2(input: String) {
     let number: u32 = input.lines()
         .map(|l| {
             let d = re_first.find(l).unwrap().as_str();
-            let first = u32::from_str_radix(d, 10).unwrap_or_else(|_| digits[d]);
+            let first = d.parse::<u32>().unwrap_or_else(|_| digits[d]);
 
             let last_match = re_last.captures(l).unwrap();
             let d = last_match.get(1).unwrap().as_str();
-            let last = u32::from_str_radix(d, 10).unwrap_or_else(|_| digits[d]);
+            let last = d.parse::<u32>().unwrap_or_else(|_| digits[d]);
             first * 10 + last
         })
         .sum();

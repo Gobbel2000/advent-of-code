@@ -5,8 +5,7 @@ fn find_input_dir() -> io::Result<PathBuf> {
     let cwd = env::current_dir()?;
     cwd.ancestors()
         .map(|p| p.join("input"))
-        .filter(|p| p.is_dir())
-        .next()
+        .find(|p| p.is_dir())
         .ok_or(io::Error::new(io::ErrorKind::NotFound,
                               "No input directory found on any parent"))
 }
