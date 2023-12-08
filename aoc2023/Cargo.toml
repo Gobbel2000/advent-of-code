@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 util.workspace = true
 regex = "1.10"
+num = "0.4"

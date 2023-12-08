@@ -109,6 +109,7 @@ fn part2(input: String) {
         // Add new range starts from current map
         for r in &m.ranges {
             range_starts.push(r.src_start);
+            range_starts.push(r.src_start + r.length);
         }
     }
     // Add the start points of each seed range
