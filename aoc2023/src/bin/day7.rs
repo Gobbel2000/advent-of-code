@@ -148,7 +148,7 @@ impl<P: Part> FromStr for Hand<P> {
        for card in cards.iter_mut() {
            *card = cards_it.next().ok_or("Not enough card characters".to_string())?;
        }
-       if cards_it.next() != None {
+       if cards_it.next().is_some() {
            return Err("Too many card characters".to_string());
        }
 

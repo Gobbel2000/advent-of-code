@@ -40,7 +40,7 @@ impl RangeMap {
                 return (key as i64 + r.diff) as u32;
             }
         }
-        return key;
+        key
     }
 
     fn inverse(&self, key: u32) -> u32 {
@@ -48,10 +48,10 @@ impl RangeMap {
         for r in &self.ranges {
             let mapped_start = r.src_start as i64 + r.diff;
             if key >= mapped_start && key < mapped_start + r.length as i64 {
-                return (key as i64 - r.diff) as u32;
+                return (key - r.diff) as u32;
             }
         }
-        return key as u32;
+        key as u32
     }
 }
 
