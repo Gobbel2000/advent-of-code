@@ -4,6 +4,7 @@ members = [
     "util",
     "aoc2022",
     "aoc2023",
+    "aoc2024",
 ]
 
 [workspace.dependencies]

@@ -34,6 +34,16 @@ pub fn get_input(fname: &str) -> io::Result<(String, bool)> {
 
 #[macro_export]
 macro_rules! aoc_main {
+    () => {
+        fn input_name() -> String {
+            let this_file = ::std::file!();
+            let path = ::std::path::Path::new(this_file);
+            let txt_path = path.with_extension("txt");
+            let fname = txt_path.file_name().unwrap();
+            fname.to_str().unwrap().to_owned()
+        }
+        util::aoc_main!(&input_name());
+    };
     ( $x:expr ) => {
         fn main() -> std::io::Result<()> {
             let (input, p2) = util::get_input( $x )?;
