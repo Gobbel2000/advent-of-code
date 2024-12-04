@@ -8,10 +8,10 @@ edition = "2021"
 [dependencies]
 util.workspace = true
 regex = "1.11"
+euclid = "0.22"
 #regex-automata = "0.4"
 #num = "0.4"
 #ndarray = "0.15"
 #ndarray-linalg = { version = "0.16", features = ["netlib-system"] }
 #rayon = "1.8"
 #rustc-hash = "1.1"
-#euclid = "0.22"
