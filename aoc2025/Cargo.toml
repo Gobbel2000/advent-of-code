@@ -1,0 +1,18 @@
+[package]
+name = "aoc2025"
+version = "0.1.0"
+edition = "2024"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+util.workspace = true
+#regex = "1.11"
+#euclid = "0.22"
+#priority-queue = "2.1"
+#rustc-hash = "2.1"
+#regex-automata = "0.4"
+#num = "0.4"
+#ndarray = "0.15"
+#ndarray-linalg = { version = "0.16", features = ["netlib-system"] }
+#rayon = "1.8"
