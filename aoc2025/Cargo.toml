@@ -7,8 +7,8 @@ edition = "2024"
 
 [dependencies]
 util.workspace = true
+euclid = "0.22"
 #regex = "1.11"
-#euclid = "0.22"
 #priority-queue = "2.1"
 #rustc-hash = "2.1"
 #regex-automata = "0.4"
