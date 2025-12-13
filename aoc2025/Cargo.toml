@@ -8,11 +8,11 @@ edition = "2024"
 [dependencies]
 util.workspace = true
 euclid = "0.22"
+ndarray = "0.17"
 #regex = "1.11"
 #priority-queue = "2.1"
 #rustc-hash = "2.1"
 #regex-automata = "0.4"
 #num = "0.4"
-#ndarray = "0.15"
 #ndarray-linalg = { version = "0.16", features = ["netlib-system"] }
 #rayon = "1.8"
